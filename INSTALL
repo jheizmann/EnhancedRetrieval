@@ -1,0 +1,59 @@
+Installation instructions - Enhanced Retrieval v1.4  -
+------------------------------------------------------
+
+Install instructions for the latest version of the Enhanced Retrieval are also online:
+
+ http://smwforum.ontoprise.com/smwforum/index.php/Help:Installing_the_Enhanced_Retrieval_Extension_1.3.5
+ 
+For the full manual of the Enhanced Retrieval have a look at:
+
+ http://smwforum.ontoprise.com/smwforum/index.php/Help:Enhanced_Retrieval_Extension_1.4
+
+For install instructions and further information on Semantic MediaWiki, please visit
+ 
+ http://semantic-mediawiki.org/wiki/Help:Administrator_manual
+
+Requirements: 
+    MediaWiki 1.13 or higher
+    Semantic MediaWiki 1.5 (Please make reference to the installation instructions: http://smwforum.ontoprise.com/smwforum/index.php/Help:Installation_of_Semantic_MediaWiki_1.5.0) 
+    Lucene server 2.0 or 2.1 (the version deployed on SMWHalo's page on sourceforge runs on Windows too!)
+
+1. Add to your LocalSettings.php:
+
+---
+$wgSearchType = 'LuceneSearch';
+$wgLuceneHost = 'localhost';
+$wgLucenePort = 8123;
+$wgLuceneSearchVersion = 2.1; 
+require_once("extensions/UnifiedSearch/includes/UnifiedSearch.php");
+---
+
+2. Then run:
+php {wiki-path}/extensions/UnifiedSearch/maintenance/setup.php
+
+---
+3. Run the LuceneServer
+
+Documentation on how to configure the Lucene server is available here:
+
+http://www.mediawiki.org/wiki/Extension:Lucene-search
+
+That's it.
+
+------------------------------------------------------------------------------------------------------------
+The following is optional:
+
+If you like to use query expansion based on synonym sets from WordNet/OpenThesaurus, also add:
+---
+require_once("extensions/UnifiedSearch/synsets/SMW_Synsets.php");
+$usgSynsetExpansion = true;
+---
+
+If you like to use the path search for a graphical representation of the search results, also add:
+$wgUSPathSearch = true;
+
+This line must be inserted before the line with the require_once command. 
+
+
+
+
