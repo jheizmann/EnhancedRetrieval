@@ -2,7 +2,7 @@
 /**
  * @file
  * @ingroup EnhancedRetrieval
- * 
+ *
  * Created on 28.01.2009
  *
  * @author: Kai K�hn
@@ -35,7 +35,7 @@ class USSpecialPage extends SpecialPage {
 		$fulltext = $wgRequest->getVal( 'fulltext', '' );
         $fulltext_x = $wgRequest->getVal( 'fulltext_x', '' );
         if ($fulltext == NULL && $fulltext_x == NULL) {
-			
+
 			# If the string cannot be used to create a title
 			if(!is_null( $t ) ){
 
@@ -74,8 +74,8 @@ class USSpecialPage extends SpecialPage {
 			$searchResults = array();
 			$searchSet = NULL;
 		}
-			 
-          
+
+
 
 		$numOfResults = count($searchResults);
 
@@ -108,17 +108,17 @@ class USSpecialPage extends SpecialPage {
 			$styleShow = 'style="display: block;"';
 			$styleHide = 'style="-ms-filter:\'progid:DXImageTransform.Microsoft.Alpha(Opacity=25)\'; filter: alpha(opacity=25); opacity: .25; display: none;"';
 		}
-		
+
 		// include rules
 		$ruleCheckBox = '';
 		global $wgUser;
 	    $showIncludeRulesCheckbox = !is_null($wgUser) && $wgUser->isAllowed("ontologyediting");
 	    if (defined('SEMANTIC_RULES_VERSION') && $showIncludeRulesCheckbox) {
             $ruleCheckBoxSelected = $wgRequest->getVal( 'includerules', '' );
-            $ruleCheckBoxSelected_att= $ruleCheckBoxSelected == "" ? "" : 'checked="checked"'; 
+            $ruleCheckBoxSelected_att= $ruleCheckBoxSelected == "" ? "" : 'checked="checked"';
             $ruleCheckBox = '<span style="margin-left:15px;"><input type="checkbox" name="includerules" '.$ruleCheckBoxSelected_att.'>'.wfMsg('us_includerules').'</input></span>';
         }
-		
+
 
 		// -- search form --
 		if ($restrict != '') $restrictInput = '<input type="hidden" name="restrict" value="'.$restrict.'"/>'; else $restrictInput="";
@@ -137,13 +137,10 @@ class USSpecialPage extends SpecialPage {
 		$colonIndex = strpos($search, ":");
 		$localname = $colonIndex !== false ? substr($search, $colonIndex + 1) : $search;
 		$caseInsensitiveTitle = USStore::getStore()->getSingleTitle($localname);
-		
+
 		if ($newpage !== NULL && !$newpage->exists() && is_null($caseInsensitiveTitle)) {
-			global $wgParser;
-			$wikilink = '[[:'.$newpage->getPrefixedText().'|'.wfMsg('us_clicktocreate').']]';
-			$newLink = $wgParser->parse($wikilink, Title::newFromText("__dummy__"), new ParserOptions(), true, true)->getText();
-			$newLink = strip_tags($newLink, '<a>');
-                        $this->createNewPageLink($newpage, $newLink);
+
+            $newLink = $this->createNewPageLink( $newpage );
 			$html .= '<div id="us_newpage">'.wfMsg('us_page_does_not_exist', $newLink).'</div>';
 		}
 		if (!is_null($caseInsensitiveTitle)) {
@@ -151,12 +148,9 @@ class USSpecialPage extends SpecialPage {
                         $wikilink = '[[:'.$caseInsensitiveTitle->getPrefixedText().']]';
                         $newTitleObj = &$caseInsensitiveTitle;
 			if (!is_null($newpage) && !$newpage->exists()) {
-                            $wikilink .= ' | [['.$newpage->getPrefixedText().'|'.wfMsg('us_clicktocreate').']]';
                             $newTitleObj = &$newpage;
                         }
-                        $newLink = $wgParser->parse($wikilink, Title::newFromText("__dummy__"), new ParserOptions(), true, true)->getText();
-                        $newLink = strip_tags($newLink, '<a>');
-                        $this->createNewPageLink($newTitleObj, $newLink);
+                        $newLink = $this->createNewPageLink($newTitleObj);
                         $html .= '<div id="us_newpage">'.wfMsg('us_similar_page_does_exist', $newLink).'</div>';
 		}
 
@@ -249,7 +243,7 @@ class USSpecialPage extends SpecialPage {
 		// create tab with fulltext search and path search and display search results as well
 
 		$fulltextResults = '<div id="%%__DIV_NAME__%%"%%__STYLE_DISPLAY__%%>';
-		
+
 		// include external search hits.
 		$ext_results = "";
 		$includeRules = $wgRequest->getVal( 'includerules', '' );
@@ -257,7 +251,7 @@ class USSpecialPage extends SpecialPage {
 		$searchTerms = self::parseTerms($wgRequest->getVal('search'));
 		wfRunHooks('us_extend_search', array($searchTerms, $receivers, & $ext_results));
 		$fulltextResults .= $ext_results;
-		
+
 		// internal search hits
 		$resultInfo =  wfMsg('us_resultinfo',$offset+1,$offset+$limit > $totalHits ? $totalHits : $offset+$limit, $totalHits, $search);
 		if (count($searchResults) == 0) {
@@ -266,7 +260,7 @@ class USSpecialPage extends SpecialPage {
 			$fulltextResults .= "<div id=\"us_resultinfo\">".wfMsg('us_results').": $resultInfo</div>";
 			$fulltextResults .= EnhancedRetrievalResultPrinter::serialize($searchResults, $search);
 		}
-		
+
 		$fulltextResults .= '</div>';
 
 		// path search is enabled
@@ -365,15 +359,20 @@ class USSpecialPage extends SpecialPage {
          * @param Title $newpage
          * @param &string $newLink
          */
-        private function createNewPageLink( $newpage, &$newLink) {
-        	  
+        private function createNewPageLink( $newpage ) {
+            	$linker = new Linker();
                 $createNewPage = Title::newFromText('Create_new_page');
                 if ($createNewPage->exists()) {
-                    $mylink = str_replace('%3A', ':', urlencode($newpage->getPrefixedDBkey()));
-                    $newLink = str_replace('index.php?title='.$mylink."&amp;action=edit",
-                                           'index.php/Create_new_page?target='.urlencode($newpage->getPrefixedDBkey()),
-                                           $newLink);
+                    $wikilink = $linker->link($createNewPage,
+                            wfMsg('us_clicktocreate'),
+                            array('class' => 'new'),
+                            array('target' => $newpage->getPrefixedDBkey(), 'redlink' => 1 ) );
+                } else {
+                    $myTitle = Title::newFromText(':'.$newpage->getPrefixedText());
+                    $wikilink = $linker->link($myTitle, wfMsg('us_clicktocreate'), array(), array('redlink' => 1)  );
                 }
+
+                return $wikilink;
         }
 
 	private function doSearch($limit, $offset) {
@@ -395,7 +394,7 @@ class USSpecialPage extends SpecialPage {
 
 		// if query contains boolean operators, consider as as user-defined
 		// and do not use title search and pass search string unchanged to Lucene
-        
+
         $allExtraNamespaces = array_diff(array_keys($wgExtraNamespaces), array_keys($usgAllNamespaces));
 		$namespacesToSearch = $restrictNS !== NULL ? array($restrictNS) : array_merge(array_keys($usgAllNamespaces), $allExtraNamespaces);
         // check default namespaces that should be searched
