@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deploydescriptor>
 	<global>
-		<version>156</version>
+		<version>160</version>
+		<patchlevel>1</patchlevel>		
 		<id>unifiedsearch</id>
 		<vendor>ontoprise GmbH</vendor>
 		<maintainer>ontoprise GmbH</maintainer>
