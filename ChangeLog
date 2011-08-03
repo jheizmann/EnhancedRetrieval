@@ -1,6 +1,10 @@
 Enhanced Retrieval extension ChangeLog
 ======================================
 
+VERSION 1.5.6 Patchlevel 4
+  BUGFIXES:
+	15237 - Slash in property name breaks FacetedSearch
+	
 VERSION 1.5.6 Patchlevel 3
   BUGFIXES:
 	15323 - Parse error in SOLR request for empty search term
