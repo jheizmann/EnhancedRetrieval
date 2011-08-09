@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deploydescriptor>
 	<global>
-		<version>160</version>
+		<version>156</version>
 		<patchlevel>5</patchlevel>		
-		<id>unifiedsearch</id>
+		<id>enhancedretrieval</id>
 		<vendor>ontoprise GmbH</vendor>
 		<maintainer>ontoprise GmbH</maintainer>
 		<license>GPL-v2</license>
