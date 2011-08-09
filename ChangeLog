@@ -1,6 +1,10 @@
 Enhanced Retrieval extension ChangeLog
 ======================================
 
+VERSION 1.5.6 Patchlevel 5
+  BUGFIXES:
+	15236 - Slash in title seems to break Faceted Search
+	
 VERSION 1.5.6 Patchlevel 4
   BUGFIXES:
 	15237 - Slash in property name breaks FacetedSearch

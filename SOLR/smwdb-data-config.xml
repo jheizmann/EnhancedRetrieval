@@ -122,7 +122,9 @@
 				name="fulltext"
 				query="SELECT CAST(t.old_text AS CHAR) ft
                FROM text t
-               WHERE old_id='${pages.pid}'">
+			       LEFT JOIN (revision as r) ON (t.old_id = r.rev_text_id )
+			       LEFT JOIN (page as p) ON ( r.rev_id= p.page_latest)
+			       WHERE p.page_id='${pages.pid}'">
 				<field column="ft" name="smwh_full_text" />
 			</entity>
 		
