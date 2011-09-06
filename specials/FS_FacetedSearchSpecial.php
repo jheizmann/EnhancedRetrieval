@@ -89,8 +89,7 @@ class FSFacetedSearchSpecial extends SpecialPage {
 		</div>
 		<hr class="xfsSeparatorLine">
 		<div id="navigation">
-			<div id="pager-header">
-			</div>
+			<div id="pager-header"></div>
 		</div>
 		<div id="docs">
 			{{fs_search_results}}
@@ -100,6 +99,10 @@ class FSFacetedSearchSpecial extends SpecialPage {
 		</div>
 	</div>
 </div>
+<div class="xfsCurrentSearchLink">
+	<hr class="xfsSeparatorLine">
+	<div id="current_search_link"></div>
+</div>
 ';
 
     public function __construct() {
@@ -107,7 +110,6 @@ class FSFacetedSearchSpecial extends SpecialPage {
         parent::__construct('Search');
 		global $wgHooks;
 		$wgHooks['MakeGlobalVariablesScript'][] = "FSFacetedSearchSpecial::addJavaScriptVariables";
-        
     }
 
     /**
@@ -172,6 +174,7 @@ class FSFacetedSearchSpecial extends SpecialPage {
 		$wgOut->addScript("<script type=\"text/javascript\" src=\"". $fsgScriptPath .  "/scripts/FacetedSearch/FS_FacetWidget.js\"></script>");        
 		$wgOut->addScript("<script type=\"text/javascript\" src=\"". $fsgScriptPath .  "/scripts/FacetedSearch/FS_ArticlePropertiesWidget.js\"></script>");        
 		$wgOut->addScript("<script type=\"text/javascript\" src=\"". $fsgScriptPath .  "/scripts/FacetedSearch/FS_CreateArticleWidget.js\"></script>");        
+		$wgOut->addScript("<script type=\"text/javascript\" src=\"". $fsgScriptPath .  "/scripts/FacetedSearch/FS_LinkCurrentSearchWidget.js\"></script>");        
 		$wgOut->addScript("<script type=\"text/javascript\" src=\"". $fsgScriptPath .  "/scripts/FacetedSearch/FS_NamespaceFacetWidget.js\"></script>");        
 		$wgOut->addScript("<script type=\"text/javascript\" src=\"". $fsgScriptPath .  "/scripts/FacetedSearch/FS_FacetPropertyValueWidget.js\"></script>");        
 		$wgOut->addScript("<script type=\"text/javascript\" src=\"". $fsgScriptPath .  "/scripts/FacetedSearch/FS_CurrentSearchWidget.js\"></script>");
