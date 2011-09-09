@@ -108,6 +108,47 @@
 	}
 	
 	/**
+	 * A text that is displayed in the UI may contain HTML or script code which
+	 * may enable cross-site-scripting. This function escapes special HTML
+	 * characters. 
+	 * Find further information at:
+	 * https://www.owasp.org/index.php/XSS_%28Cross_Site_Scripting%29_Prevention_Cheat_Sheet
+	 * 
+	 * @param {string} text
+	 * 		The string to be escaped.
+	 * @return {string}
+	 * 		The escaped string
+	 */
+	function escapeHTML(text) {
+		var escText = text.replace(/&/g, '&amp;')
+						  .replace(/</g, '&lt;')
+		                  .replace(/>/g, '&gt;')
+		                  .replace(/"/g, '&quot;')
+		                  .replace(/'/g, '&#x27;')
+		                  .replace(/\//g, '&#x2F;');
+		return escText;
+	}
+	
+	/**
+	 * Generates an HTML-ID for a facet. The HTML-IDs are used as IDs for HTML 
+	 * elements and in jQuery selectors. Some characters like / or % are not valid
+	 * for use in jQuery selectors. So all characters in the facet are converted
+	 * to a hexadecimal string.
+	 * 
+	 * @param {String} facet
+	 * 		Name of the facet
+	 * @return {String}
+	 * 		ID for the given facet.
+	 */
+	function facet2HTMLID(facet) {
+		var f = "";
+		for (var i = 0, l = facet.length; i < l; ++i) {
+			f += facet.charCodeAt(i).toString(16);
+		}
+		return f;
+	}
+	
+	/**
 	 * Some strings are too long for displaying them in the UI. This function
 	 * shortens them and appends an ellipsis (...) .
 	 * @param {String} longName
@@ -178,6 +219,18 @@
 	 */
 	function isRelation(name) {
 		return name.match(RELATION_REGEX) && !name.match(ATTRIBUTE_REGEX);
+	}
+	
+	/**
+	 * Generates an HTML ID for a property value facet with the name {facet}.
+	 * 
+	 * @param {String} facet
+	 * 		Name of the facet
+	 * @return {String} 
+	 * 		HTML ID for the given facet.
+	 */
+	AjaxSolr.theme.prototype.getPropertyValueHTMLID = function (facet) {
+		return 'property_' + facet2HTMLID(facet) + "_value";	
 	}
 	
 	/**
@@ -348,6 +401,12 @@
 			// Main namespace
 			name = lang.getMessage('mainNamespace');
 		}
+		
+		if (typeof name === 'undefined') {
+			// The namespace may be undefined if the extension that defines it
+			// was disabled after the creation of the index.
+			return '';
+		}
 		var tooltip = 'title="' + lang.getMessage('namespaceTooltip', count) + '" ';
 		name = name.replace(/ /g, '&nbsp;')
 		var emptyNamespace = count === 0 ? " xfsEmptyNamespace" : "";
@@ -403,7 +462,7 @@
 			var facetsExpanded = FacetedSearch.singleton.FacetedSearchInstance.isExpandedFacet(facet);
 			var img1Visible = facetsExpanded ? ' style="display:none" ' : '';
 			var img2Visible = facetsExpanded ? '' : ' style="display:none" ';
-			var divID = 'property_' + facet + '_values';
+			var divID = AjaxSolr.theme.prototype.getPropertyValueHTMLID(facet);
 			var img1ID = 'show_details' + divID;
 			var img2ID = 'hide_details' + divID;
 			
@@ -501,6 +560,8 @@
 		
 	AjaxSolr.theme.prototype.createArticle = function(articleName, link) {
 		var lang = FacetedSearch.singleton.Language;
+		link = escapeHTML(link);
+		articleName = escapeHTML(articleName);
 		var html = lang.getMessage('nonexArticle', '<em>'+articleName+'</em>') + 
 					' <a href="' + link + '" class="xfsRedLink">' + 
 						articleName + 
@@ -515,6 +576,17 @@
 		});
 		return list;
 	};
+	
+	AjaxSolr.theme.prototype.currentSearch = function(link) {
+		var lang = FacetedSearch.singleton.Language;
+		link = escapeHTML(link);
+		var html = ' <a href="' + link + '" title="' + 
+						lang.getMessage('searchLinkTT') + '">' + 
+						lang.getMessage('searchLink') + 
+					'</a>';
+		return html;
+	};
+
 
 	/**
 	 * Creates the HTML for a cluster of values of an attribute. A cluster is 

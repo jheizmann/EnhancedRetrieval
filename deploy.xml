@@ -2,7 +2,8 @@
 <deploydescriptor>
 	<global>
 		<version>156</version>
-		<id>unifiedsearch</id>
+		<patchlevel>6</patchlevel>		
+		<id>enhancedretrieval</id>
 		<vendor>ontoprise GmbH</vendor>
 		<maintainer>ontoprise GmbH</maintainer>
 		<license>GPL-v2</license>
