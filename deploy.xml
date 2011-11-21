@@ -2,7 +2,7 @@
 <deploydescriptor>
 	<global>
 		<version>156</version>
-		<patchlevel>6</patchlevel>		
+		<patchlevel>7</patchlevel>		
 		<id>enhancedretrieval</id>
 		<vendor>ontoprise GmbH</vendor>
 		<maintainer>ontoprise GmbH</maintainer>
@@ -13,8 +13,8 @@
 		</helpurl>
 		<dependencies>
 			<dependency from="1150" to="1169">mw</dependency>
-			<dependency from="101">scriptmanager</dependency>
-            <depencency from="156">smwhalo</depencency>
+			<dependency from="101" to="156">scriptmanager</dependency>
+            <depencency from="156" to="156">smwhalo</depencency>
 		</dependencies>
 	</global>
 	<codefiles>
