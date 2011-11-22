@@ -41,7 +41,7 @@ FacetedSearch.classes.FSLanguageDe = function () {
 	that.mMessages = {
 'solrNotFound'		: 'Es konnte keine Verbindung zum SOLR Server hergestellt werden. ' +
 					  'Die facettierte Suche wird nicht funktionieren. '+
-					  'Der SOLR Server wird hier gesucht: ' + wgFSSolrURL,
+					  'Der SOLR Server wird hier gesucht: ' + wgFSSolrURL  + wgFSSolrServlet,
 'more' 				: 'mehr',
 'less' 				: 'weniger',
 'noFacetFilter'		: '(Keine Facetten ausgewählt.)',

@@ -2,7 +2,7 @@
 <deploydescriptor>
 	<global>
 		<version>156</version>
-		<patchlevel>7</patchlevel>		
+		<patchlevel>8</patchlevel>		
 		<id>enhancedretrieval</id>
 		<vendor>ontoprise GmbH</vendor>
 		<maintainer>ontoprise GmbH</maintainer>
@@ -32,24 +32,16 @@
 	<configs>
 
 		<new>
-			<variable name="wgSearchType">
-				<string name="wgSearchType" description="Search engine type">LuceneSearch</string>
-			</variable>
-			<variable name="wgLuceneHost">
-				<string name="wgLuceneHost" description="Host">localhost</string>
-			</variable>
-			<variable name="wgLucenePort">
-				<string name="wgLucenePort" description="Port">8123</string>
-			</variable>
-			<variable name="wgLuceneSearchVersion">
-				<string name="wgLuceneSearchVersion" description="Version">2.1</string>
-			</variable>
-			<variable name="wgLuceneSearchTimeout">
-				<string name="wgLuceneSearchTimeout" description="HTTP-Timeout in s">5</string>
-			</variable>
-
 			<require name="us_init"
 				file="extensions/EnhancedRetrieval/includes/EnhancedRetrieval.php" />
+			<php name="Solr Configuration">
+$fsgFacetedSearchConfig = array(
+    'indexer' => 'SOLR',
+    'source'  => 'SMWDB',
+    'host'    => $wgServer,
+	'servlet' => "$wgScriptPath/extensions/EnhancedRetrieval/includes/FacetedSearch/solrproxy.php"
+);
+			</php>
 			<script file="maintenance/setup.php" params="" />
 		</new>
 		<update from="136">
@@ -61,6 +53,30 @@
               <search>extensions/UnifiedSearch/includes/UnifiedSearch.php</search>
               <replacement>extensions/EnhancedRetrieval/includes/EnhancedRetrieval.php</replacement>
             </replace>
+		</update>
+		<update from="156" removeAll="true">
+			<require name="us_init"
+				file="extensions/EnhancedRetrieval/includes/EnhancedRetrieval.php" />
+			<php name="Solr Configuration">
+$fsgFacetedSearchConfig = array(
+    'indexer' => 'SOLR',
+    'source'  => 'SMWDB',
+    'host'    => $wgServer,
+	'servlet' => "$wgScriptPath/extensions/EnhancedRetrieval/includes/FacetedSearch/solrproxy.php"
+);
+			</php>
+		</update>
+		<update from="patchlevel" removeAll="true">
+			<require name="us_init"
+				file="extensions/EnhancedRetrieval/includes/EnhancedRetrieval.php" />
+			<php name="Solr Configuration">
+$fsgFacetedSearchConfig = array(
+    'indexer' => 'SOLR',
+    'source'  => 'SMWDB',
+    'host'    => $wgServer,
+	'servlet' => "$wgScriptPath/extensions/EnhancedRetrieval/includes/FacetedSearch/solrproxy.php"
+);
+			</php>
 		</update>
 		<uninstall>
 			<script file="maintenance/setup.php" params="--delete" />

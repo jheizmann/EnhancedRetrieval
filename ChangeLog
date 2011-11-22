@@ -1,5 +1,9 @@
 Enhanced Retrieval extension ChangeLog
 ======================================
+VERSION 1.5.6 Patchlevel 8
+  FEATURES:
+    15974 - Support port 80 instead of standard SOLR port
+
 VERSION 1.5.6 Patchlevel 6
   FEATURES:
     14756 - A configurable faceted search
