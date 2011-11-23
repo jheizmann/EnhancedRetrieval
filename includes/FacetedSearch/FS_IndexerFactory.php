@@ -62,7 +62,7 @@ class FSIndexerFactory  {
 			$indexerConfig = $fsgFacetedSearchConfig;
 		}
 		// Check if the configuration is complete
-		$expKeys = array('indexer' => 0, 'source' => 0, 'host' => 0, 'port' => 0);
+		$expKeys = array('indexer' => 0, 'source' => 0, 'host' => 0);
 		$missingKeys = array_diff_key($expKeys, $indexerConfig);
 		if (count($missingKeys) > 0) {
 			$missingKeys = "The following keys are missing: ".implode(', ', array_keys($missingKeys));
