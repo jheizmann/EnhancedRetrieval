@@ -1,6 +1,11 @@
 Enhanced Retrieval extension ChangeLog
 ======================================
 
+VERSION 1.6 patchlevel 1
+  FEATURES:
+  	* Provide extension points for other extensions like TreeView
+
+
 VERSION 1.6
   FEATURES:
     14756 - A configurable faceted search
