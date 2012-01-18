@@ -1,6 +1,10 @@
 Enhanced Retrieval extension ChangeLog
 ======================================
 
+VERSION 1.6 patchlevel 2
+	BUGFIXES:
+	16317 - Minor bug in wfUSInitUserMessages in EnhancedRetrieval.php
+	
 VERSION 1.6 patchlevel 1
   FEATURES:
   	* Provide extension points for other extensions like TreeView

@@ -2,7 +2,7 @@
 <deploydescriptor>
 	<global>
 		<id>enhancedretrieval</id>
-		<patchlevel>1</patchlevel>
+		<patchlevel>2</patchlevel>
 		<title>Enhanced Retrieval extension</title>
 		<version>1.6.0</version>
 		<vendor>ontoprise GmbH</vendor>
