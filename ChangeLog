@@ -1,5 +1,9 @@
 Enhanced Retrieval extension ChangeLog
 ======================================
+VERSION 1.6 patchlevel 3
+  BUGFIXES:
+	16483 - English is not the fallback language in the UI
+	        Added french language files
 
 VERSION 1.6 patchlevel 2
 	BUGFIXES:
